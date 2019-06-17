@@ -1,0 +1,24 @@
+To compile in Cygwin x64 (Windows 10 x64)
+
+Install the following in cygwin:
+gcc
+gcc-fortran
+liblapack0 (or other blas)
+g++
+make
+cmake
+
+Then compile Superlu 5.2.1 (to be statically linked to meshfix):
+Use superLU_CMakeLists_cygwin.txt as CMakeLists.txt for superLU it may also compile without modifications - but in that case it will use the included CBLAS (expected to be slower).
+in superlu run:
+cmake .
+make
+make install
+
+MeshFix:
+Rename CMakeLists_cygwin.txt -> CMakeLists.txt
+run:
+cmake .
+make
+
+16/08-2018 kristofferm@drcmr.dk
