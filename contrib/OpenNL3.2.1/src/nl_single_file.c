@@ -1485,7 +1485,6 @@ typedef NLint     ftnlen ;
 #define max(x,y) ((x) > (y) ? (x) : (y))
 #endif
 
-#ifndef NL_USE_BLAS
 
 int NL_FORTRAN_WRAP(lsame)(char *ca, char *cb)
 {
@@ -1603,6 +1602,7 @@ int NL_FORTRAN_WRAP(lsame)(char *ca, char *cb)
     return 0;
 } /* xerbla_ */
 
+#ifndef NL_USE_BLAS
 
 /* Subroutine */ int NL_FORTRAN_WRAP(daxpy)(integer *n, doublereal *da, doublereal *dx, 
 	integer *incx, doublereal *dy, integer *incy)

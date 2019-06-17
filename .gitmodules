@@ -1,0 +1,3 @@
+[submodule "3rd_party/superlu"]
+	path = 3rd_party/superlu
+	url = https://github.com/xiaoyeli/superlu
