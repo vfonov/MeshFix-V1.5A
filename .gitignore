@@ -37,3 +37,6 @@ CTestTestfile.cmake
 # Vim
 *.vim
 *.swp
+
+# build directory
+build
