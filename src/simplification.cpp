@@ -412,7 +412,7 @@ int ExtTriMesh::simplify(int numver, int optimal, int edgelen, int check)
      {
       ve2 = e->oppositeVertex(v)->VE();
       FOREACHVEEDGE(ve2, e1, m) if (!IS_BIT(e1, 3)) eh.update(e1);
-      delete(ve2);
+      delete ve2;
      }
      FOREACHVEEDGE(ve, e, n) UNMARK_BIT(e, 3);
     }
@@ -426,10 +426,10 @@ int ExtTriMesh::simplify(int numver, int optimal, int edgelen, int check)
 
  JMesh::end_progress();
 
- delete(edges);
+ delete[] edges;
 
- FOREACHVERTEX(v, n) {delete((Q_matrix *)v->info); v->info = NULL; UNMARK_VISIT(v); UNMARK_VISIT2(v);}
- FOREACHEDGE(e, n) {delete((EC_Cost *)e->info); e->info = NULL;}
+ FOREACHVERTEX(v, n) {delete (Q_matrix *)v->info; v->info = NULL; UNMARK_VISIT(v); UNMARK_VISIT2(v);}
+ FOREACHEDGE(e, n) {delete (EC_Cost *)e->info; e->info = NULL;}
  removeUnlinkedElements();
 
  return 1;
@@ -514,7 +514,7 @@ int ExtTriMesh::multiplechoice_simplify(int numver, int optimal, int numchoices,
     GET_VERTEX_QEM(v) += GET_VERTEX_QEM(ov);
     ve = v->VE();
     FOREACHVEEDGE(ve, e, m) MARK_VISIT(e);
-    delete(ve);
+    delete ve;
     JMesh::report_progress("%d%% done ",(100*(V.numels()-numver-nsteps))/(V.numels()-numver));
     nsteps--;
    }
@@ -523,8 +523,8 @@ int ExtTriMesh::multiplechoice_simplify(int numver, int optimal, int numchoices,
 
  JMesh::end_progress();
 
- FOREACHVERTEX(v, n) {delete((Q_matrix *)v->info); v->info = NULL; UNMARK_VISIT(v); UNMARK_VISIT2(v);}
- FOREACHEDGE(e, n) {delete((EC_Cost *)e->info); e->info = NULL; UNMARK_VISIT(e);}
+ FOREACHVERTEX(v, n) {delete (Q_matrix *)v->info; v->info = NULL; UNMARK_VISIT(v); UNMARK_VISIT2(v);}
+ FOREACHEDGE(e, n) {delete (EC_Cost *)e->info; e->info = NULL; UNMARK_VISIT(e);}
  removeUnlinkedElements();
 
  return 1;

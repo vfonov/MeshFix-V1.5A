@@ -1,23 +1,11 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 project(MeshFix C CXX)
+
+ENABLE_TESTING()
+INCLUDE(CTest)
 
 add_subdirectory(contrib/JMeshLib)
 add_subdirectory(3rd_party)
-
-# Commented out in OSX
-#SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-#SET(BUILD_SHARED_LIBRARIES OFF)
-#SET(CMAKE_EXE_LINKER_FLAGS "-static")
-
-# OSX: Downloaded and compiled superlu from the official website
-#add_library(superlu STATIC IMPORTED SHARED)
-#find_library(SUPERLU_LIBRARY superlu /usr/lib)
-#MESSAGE(STATUS "SUPERLU: " ${SUPERLU_LIBRARY})
-
-# NOTE: installed the BLAS library from homebrew
-#add_library(blas STATIC IMPORTED)
-#find_library(BLAS_LIBRARY blas) # usr/lib) Commented out in OSX
-#MESSAGE(STATUS "BLAS: " ${BLAS_LIBRARY})
 
 include_directories(
     include
@@ -29,11 +17,20 @@ include_directories(
 
 link_directories(
     ${LINK_DIRECTORIES}
-#    ${CMAKE_CURRENT_SOURCE_DIR}/contrib/JMeshLib/lib
 )
-file(GLOB meshfix_h include/*.h)
+
+set(meshfix_h 
+    include/component.h
+    include/detectIntersections.h
+    include/epsilonSampling.h
+    include/exttrimesh.h
+    include/holeFilling.h
+    include/simplification.h
+    include/sparseLSystem.h)
+
 
 set(meshfix_src
+    src/meshfix.cpp 
     contrib/jrs_predicates/jrs_predicates.c
     src/detectIntersections.cpp
     src/holeFilling.cpp
@@ -46,12 +43,6 @@ set(meshfix_src
     src/uniform.cpp
     src/cleaning.cpp
 )
-#add_custom_command(
-#    TARGET meshfix
-#    PRE_LINK
-#    COMMAND make
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/contrib/JMeshLib/
-#)
 
 if(CMAKE_CXX_SIZEOF_DATA_PTR EQUAL 8)
     ADD_DEFINITIONS(-DIS64BITPLATFORM)  ## needed for 64 bit 
@@ -65,5 +56,11 @@ endif()
 message("BLAS_LIBRARY=${BLAS_LIBRARY}")
 message("SUPERLU_LIBRARY=${SUPERLU_LIBRARY}")
 
-add_executable(meshfix ${meshfix_src} ${meshfix_h} meshfix.cpp)
+add_executable(meshfix ${meshfix_src} ${meshfix_h} )
 target_link_libraries(meshfix jmesh ${BLAS_LIBRARY} ${SUPERLU_LIBRARY} ) 
+
+IF(BUILD_TESTING)
+    ADD_SUBDIRECTORY(test)
+ENDIF(BUILD_TESTING)
+
+

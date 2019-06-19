@@ -300,7 +300,7 @@ int ExtTriMesh::joinComponentsBiggestBoundaryPair(List *nl, List *ml, double joi
         else biggestLoop2 = loop;
     }
     cm.boundaries->joinTailList(tmp);
-    delete(tmp);
+    delete tmp;
 
     bool ret = joinBoundaryPair(biggestLoop1, biggestLoop2);
     this->eulerUpdate();

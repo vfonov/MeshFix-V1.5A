@@ -315,7 +315,7 @@ void fs_sparseSystem::solve(List *vl)
  for(i=0, n=vl->head(); i<nv; i++, n=n->next()) ((Vertex *)n->data)->y = -x[i];
  sparseSystem::solve(x, 2);
  for(i=0, n=vl->head(); i<nv; i++, n=n->next()) ((Vertex *)n->data)->z = -x[i];
- delete(x);
+ delete[] x;
 }
 
 void ExtTriMesh::fairSelection(Triangle *t0)
